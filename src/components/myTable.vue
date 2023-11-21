@@ -1,5 +1,6 @@
 <template>
   <div class="card">
+    Keys: {{ findKeyArr }}
     <DataTable :value="products"
                @page="onPage($event)"
                lazy paginator
@@ -25,9 +26,10 @@ import { ref, onMounted, computed} from 'vue';
 //onMounted(() => {
 //  ProductService.getProductsMini().then((data) => (products.value = data));
 //});
-defineProps({
-  findKeyArr: Object,
-})
+// const props = defineProps({
+//   findKeyArr: Object,
+// })
+const props = defineProps(["findKeyArr"])
 const totalRecords = ref(0)
 const rows = ref(5);
 const page = ref(0);
@@ -49,7 +51,15 @@ const products = ref([
 // });
 const url = computed(()=>{
   // return `http://192.168.50.5:3002/tovars?page=${page.value}&npp=${limit.value}&s=${findKey.value}`
-  return `http://192.168.50.5:3002/tovars?page=${page.value}&npp=${rows.value}`
+//  return `http://192.168.50.5:3002/tovars?page=${page.value}&npp=${rows.value}`
+//  console.log(encodeURI(JSON.stringify(props.findKeyArr)))
+//  console.log(JSON.parse(decodeURI(encodeURI(JSON.stringify(props.findKeyArr)))))
+  let keys="";
+  if(props.findKeyArr.length)
+    keys=`&ss=${encodeURI(JSON.stringify(props.findKeyArr))}`;
+  return `http://192.168.50.5:3002/tovars?page=${page.value}&npp=${rows.value}${keys}`
+//  return `http://192.168.50.5:3002/tovars?page=${page.value}&npp=${rows.value}&ss=${encodeURI(JSON.stringify(props.findKeyArr))}`
+//  return `http://192.168.50.5:3002/tovars?page=${page.value}&npp=${rows.value}&ss=${props.findKeyArr}`
 })
 const {isFetching:loading, error, data } = useFetch(url, {
   refetch: true,

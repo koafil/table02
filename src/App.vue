@@ -14,7 +14,7 @@
     <Button label="Submit" />
     <AutoComplete v-model="value" multiple :suggestions="items" @complete="search" />
   </div>
-  <myTable />
+  <myTable :findKeyArr="value"/>
 </template>
 
 <script setup>
@@ -30,10 +30,10 @@ const items = ref([]);
 const {isFetching:isFetching1, data } = useFetch(`http://192.168.50.5:3002/articul`).json();
 //const search = (event) => {  items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
 const search = (event) => {
-  console.log(event.query)
+//  console.log(event.query)
 //  items.value = [...Array(3).keys()].map((item) => event.query + '-' + item);
   if (event.query) {
-    console.log(data.value)
+//    console.log(data.value)
     items.value =[event.query, ...data.value.rowData.filter((item) => {
       return item.toLowerCase().includes(event.query.toLowerCase())
     })]
