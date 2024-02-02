@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    Keys: {{ findKeyArr }}
+<!--    Keys: {{ findKeyArr }}-->
     <DataTable :value="products"
                @page="onPage($event)"
                lazy paginator
@@ -13,6 +13,7 @@
       <Column field="id" header="ID"></Column>
       <Column field="articul" header="Артикул"></Column>
       <Column field="info" header="Инфо"></Column>
+      <template #footer> Всего {{ totalRecords ? totalRecords : 0 }} позиций. </template>
     </DataTable>
   </div>
 </template>
@@ -31,7 +32,7 @@ import { ref, onMounted, computed} from 'vue';
 // })
 const props = defineProps(["findKeyArr"])
 const totalRecords = ref(0)
-const rows = ref(5);
+const rows = ref(10);
 const page = ref(0);
 
 const products = ref([
